@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Lime Head International School</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600&family=Inter:wght@300;400;500;600&family=Space+Mono&display=swap');
+
+  :root{
+    --void: #0B0B0D;
+    --void-soft: #151518;
+    --bone: #ECE9E1;
+    --bone-dim: rgba(236,233,225,0.62);
+    --brass: #C9A227;
+    --brass-soft: #E4C868;
+    --line: rgba(236,233,225,0.12);
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--void); color:var(--bone);
+    font-family:'Inter', sans-serif; font-weight:300;
+    line-height:1.7; overflow-x:hidden;
+  }
+  a{color:inherit; text-decoration:none;}
+  .wrap{max-width:1140px; margin:0 auto; padding:0 32px;}
+
+  ::selection{background:var(--brass); color:var(--void);}
+
+  .reveal{opacity:0; transform:translateY(28px); transition:opacity .9s cubic-bezier(.16,1,.3,1), transform .9s cubic-bezier(.16,1,.3,1);}
+  .reveal.in{opacity:1; transform:translateY(0);}
+  .reveal.d1{transition-delay:.1s;} .reveal.d2{transition-delay:.2s;} .reveal.d3{transition-delay:.3s;}
+
+  /* --- NAV --- */
+  nav{
+    position:fixed; top:0; left:0; right:0; z-index:100;
+    padding:26px 0; transition:padding .35s ease, background .35s ease, border-color .35s ease;
+    border-bottom:1px solid transparent;
+  }
+  nav.scrolled{padding:14px 0; background:rgba(11,11,13,0.85); backdrop-filter:blur(10px); border-color:var(--line);}
+  nav .wrap{display:flex; align-items:center; justify-content:space-between;}
+  .brand{display:flex; align-items:center; gap:12px;}
+  .crest{
+    width:36px; height:36px; border-radius:50%; border:1px solid var(--brass);
+    display:flex; align-items:center; justify-content:center;
+    font-family:'Fraunces', serif; font-size:0.78rem; color:var(--brass);
+  }
+  .brand-text .name{font-family:'Fraunces', serif; font-weight:500; font-size:1.05rem; letter-spacing:0.01em; color:var(--bone);}
+  .brand-text .tag{font-family:'Space Mono', monospace; font-size:0.58rem; letter-spacing:0.16em; color:var(--brass-soft); text-transform:uppercase;}
+  .nav-links{display:flex; gap:38px; font-size:0.82rem; letter-spacing:0.03em;}
+  .nav-links a{position:relative; opacity:0.7; transition:opacity .25s; color:var(--bone);}
+  .nav-links a::after{content:""; position:absolute; left:0; bottom:-6px; height:1px; width:0; background:var(--brass-soft); transition:width .3s ease;}
+  .nav-links a:hover{opacity:1;}
+  .nav-links a:hover::after{width:100%;}
+
+  /* --- HERO --- */
+  .hero{
+    position:relative; min-height:100vh;
+    display:flex; align-items:flex-end;
+    overflow:hidden;
+  }
+  .hero-media{position:absolute; inset:0; z-index:0;}
+  .hero-media img{
+    width:100%; height:100%; object-fit:cover;
+    filter:grayscale(0.35) brightness(0.55);
+    animation:kenburns 22s ease-in-out infinite alternate;
+  }
+  @keyframes kenburns{ from{ transform:scale(1); } to{ transform:scale(1.08); } }
+  .hero-media::after{
+    content:""; position:absolute; inset:0;
+    background:linear-gradient(180deg, rgba(11,11,13,0.55) 0%, rgba(11,11,13,0.35) 35%, rgba(11,11,13,0.95) 100%);
+  }
+  .hero .wrap{position:relative; z-index:2; padding-bottom:110px;}
+  .eyebrow{
+    font-family:'Space Mono', monospace; font-size:0.74rem; letter-spacing:0.2em;
+    text-transform:uppercase; color:var(--brass-soft); margin-bottom:22px;
+    display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{content:""; width:24px; height:1px; background:var(--brass-soft);}
+  h1{
+    font-family:'Fraunces', serif; font-weight:400;
+    font-size:clamp(2.6rem, 6.4vw, 5rem); line-height:1.05;
+    letter-spacing:-0.01em; max-width:15ch;
+  }
+  h1 em{font-style:italic; color:var(--brass-soft);}
+  .hero-sub{margin-top:26px; max-width:44ch; font-size:1.05rem; color:var(--bone-dim); font-weight:300;}
+  .hero-cta{margin-top:40px; display:flex; gap:20px; flex-wrap:wrap; align-items:center;}
+  .btn{display:inline-flex; align-items:center; gap:10px; padding:16px 32px; font-weight:500; font-size:0.85rem; letter-spacing:0.04em; text-transform:uppercase; border:1px solid var(--brass); transition:all .3s ease;}
+  .btn-primary{background:var(--brass); color:var(--void);}
+  .btn-primary:hover{background:transparent; color:var(--brass-soft);}
+  .btn-ghost{color:var(--bone); border-color:rgba(236,233,225,0.4);}
+  .btn-ghost:hover{border-color:var(--brass-soft); color:var(--brass-soft);}
+
+  .scroll-cue{position:absolute; bottom:40px; right:32px; z-index:2; display:flex; align-items:center; gap:10px; font-family:'Space Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; color:var(--bone-dim); text-transform:uppercase;}
+  .scroll-cue .bar{width:1px; height:36px; background:var(--line); position:relative; overflow:hidden;}
+  .scroll-cue .bar::after{content:""; position:absolute; top:-40px; left:0; width:100%; height:40px; background:var(--brass-soft); animation:scrolldown 2s ease-in-out infinite;}
+  @keyframes scrolldown{ 0%{top:-40px;} 100%{top:36px;} }
+
+  section{padding:130px 0;}
+  .section-head{display:flex; align-items:baseline; gap:18px; margin-bottom:56px;}
+  .section-num{font-family:'Space Mono', monospace; font-size:0.8rem; color:var(--brass-soft);}
+  h2{font-family:'Fraunces', serif; font-weight:400; font-size:clamp(2rem, 4vw, 2.6rem); letter-spacing:-0.01em;}
+
+  /* --- STATS --- */
+  .stats-band{border-top:1px solid var(--line); border-bottom:1px solid var(--line);}
+  .stats-grid{display:grid; grid-template-columns:repeat(4,1fr);}
+  .stat-item{padding:56px 24px; text-align:center; border-right:1px solid var(--line);}
+  .stat-item:last-child{border-right:none;}
+  .stat-item b{display:block; font-family:'Fraunces', serif; font-size:2.6rem; font-weight:400; color:var(--bone);}
+  .stat-item span{font-family:'Space Mono', monospace; font-size:0.66rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--bone-dim);}
+
+  /* --- ABOUT --- */
+  .about-grid{display:grid; grid-template-columns:1fr 1fr; gap:64px; align-items:center;}
+  .about-grid p{color:var(--bone-dim); margin-bottom:18px; font-weight:300;}
+  .about-media{position:relative; aspect-ratio:4/5; overflow:hidden; border:1px solid var(--line);}
+  .about-media img{width:100%; height:100%; object-fit:cover; filter:grayscale(0.3) brightness(0.9); transition:transform .6s ease, filter .6s ease;}
+  .about-media:hover img{transform:scale(1.05); filter:grayscale(0) brightness(1);}
+  .curriculum-card{border:1px solid var(--line); padding:36px; margin-top:24px; transition:border-color .3s ease;}
+  .curriculum-card:hover{border-color:var(--brass);}
+  .curriculum-card .tag{font-family:'Space Mono', monospace; font-size:0.68rem; letter-spacing:0.12em; color:var(--brass-soft); text-transform:uppercase;}
+  .curriculum-card h3{font-family:'Fraunces', serif; font-size:1.3rem; margin:12px 0 14px; font-weight:400;}
+  .curriculum-card ul{list-style:none; font-size:0.9rem; color:var(--bone-dim);}
+  .curriculum-card li{padding:9px 0; border-top:1px solid var(--line);}
+
+  /* --- LIFE AT SCHOOL STRIP --- */
+  .life-strip{display:grid; grid-template-columns:1.3fr 1fr; gap:2px; background:var(--line);}
+  .life-strip .life-img{position:relative; overflow:hidden; min-height:420px; background:var(--void-soft);}
+  .life-strip .life-img img{width:100%; height:100%; object-fit:cover; filter:grayscale(0.25) brightness(0.85); transition:transform .7s ease;}
+  .life-strip .life-img:hover img{transform:scale(1.06);}
+  .life-caption{position:absolute; left:0; bottom:0; padding:26px 30px; background:linear-gradient(0deg, rgba(11,11,13,0.85), transparent);}
+  .life-caption span{font-family:'Space Mono', monospace; font-size:0.68rem; letter-spacing:0.1em; text-transform:uppercase; color:var(--brass-soft);}
+  .life-caption p{font-family:'Fraunces', serif; font-size:1.1rem; margin-top:6px; color:var(--bone);}
+
+  /* --- HEAD'S MESSAGE --- */
+  .head-msg{border:1px solid var(--line); padding:60px; display:grid; grid-template-columns:170px 1fr; gap:50px; align-items:center; transition:border-color .3s ease;}
+  .head-msg:hover{border-color:var(--brass);}
+  .head-portrait{width:150px; height:150px; border-radius:50%; border:1px solid var(--brass); display:flex; align-items:center; justify-content:center; font-family:'Fraunces', serif; font-size:2.4rem; font-weight:400; color:var(--brass-soft);}
+  .head-msg blockquote{font-family:'Fraunces', serif; font-style:italic; font-size:1.4rem; font-weight:400; line-height:1.55; color:var(--bone); margin-bottom:22px;}
+  .head-msg .signee{font-family:'Space Mono', monospace; font-size:0.78rem; color:var(--brass-soft); text-transform:uppercase; letter-spacing:0.08em;}
+
+  /* --- PROGRAMS --- */
+  .cards{display:grid; grid-template-columns:repeat(3, 1fr); gap:1px; background:var(--line);}
+  .card{background:var(--void); padding:44px 32px; transition:background .3s ease, transform .3s ease;}
+  .card:hover{background:var(--void-soft); transform:translateY(-6px);}
+  .card .tag{font-family:'Space Mono', monospace; font-size:0.7rem; color:var(--brass-soft); text-transform:uppercase; letter-spacing:0.1em;}
+  .card h3{font-family:'Fraunces', serif; font-size:1.3rem; margin:16px 0 12px; font-weight:400;}
+  .card p{color:var(--bone-dim); font-size:0.92rem; font-weight:300;}
+
+  /* --- FOOTER --- */
+  footer{position:relative; padding:100px 0 34px; overflow:hidden;}
+  .footer-media{position:absolute; inset:0; z-index:0;}
+  .footer-media img{width:100%; height:100%; object-fit:cover; filter:grayscale(0.5) brightness(0.3);}
+  footer .wrap{position:relative; z-index:1;}
+  .footer-top{display:flex; justify-content:space-between; align-items:flex-start; flex-wrap:wrap; gap:44px; padding-bottom:48px; border-bottom:1px solid var(--line);}
+  .footer-top h2{max-width:13ch; color:var(--bone);}
+  .contact-list{font-size:0.94rem; color:var(--bone-dim); font-weight:300;}
+  .contact-list div{margin-bottom:12px;}
+  .contact-list a{color:var(--brass-soft); font-weight:400; border-bottom:1px solid transparent; transition:border-color .2s ease;}
+  .contact-list a:hover{border-color:var(--brass-soft);}
+  .foot-bottom{padding-top:28px; display:flex; justify-content:space-between; font-size:0.75rem; color:var(--bone-dim); flex-wrap:wrap; gap:12px; font-family:'Space Mono', monospace;}
+  .foot-bottom a{color:var(--brass-soft);}
+
+  @media (max-width:760px){
+    .nav-links{display:none;}
+    .about-grid{grid-template-columns:1fr;}
+    .head-msg{grid-template-columns:1fr; padding:36px; text-align:left;}
+    .cards{grid-template-columns:1fr;}
+    .stats-grid{grid-template-columns:1fr 1fr;}
+    .stat-item{border-bottom:1px solid var(--line);}
+    .life-strip{grid-template-columns:1fr;}
+    .life-strip .life-img{min-height:280px;}
+    .scroll-cue{display:none;}
+  }
+
+  @media (prefers-reduced-motion: reduce){ *{transition:none !important; animation:none !important;} }
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <div class="wrap">
+    <div class="brand">
+      <div class="crest">TLH</div>
+      <div class="brand-text">
+        <div class="name">The Lime Head</div>
+        <div class="tag">International School</div>
+      </div>
+    </div>
+    <div class="nav-links">
+      <a href="#about">About</a>
+      <a href="#life">Campus Life</a>
+      <a href="#message">Head's Message</a>
+      <a href="#programs">Programs</a>
+      <a href="#contact">Admissions</a>
+    </div>
+  </div>
+</nav>
+
+<header class="hero">
+  <div class="hero-media">
+    <img src="https://images.unsplash.com/photo-1774600787271-86f8f714c410?fm=jpg&q=80&w=2200&auto=format&fit=crop" alt="">
+  </div>
+  <div class="wrap">
+    <div class="eyebrow reveal in">A Global Education, Rooted at Home</div>
+    <h1 class="reveal in d1">Preparing students for <em>the whole world.</em></h1>
+    <p class="hero-sub reveal in d2">The Lime Head International School blends a rigorous global curriculum with close, personal mentorship — building confident, world-ready learners from day one.</p>
+    <div class="hero-cta reveal in d3">
+      <a href="#contact" class="btn btn-primary">Apply for Admission</a>
+      <a href="#about" class="btn btn-ghost">Explore the School</a>
+    </div>
+  </div>
+  <div class="scroll-cue"><span>Scroll</span><div class="bar"></div></div>
+</header>
+
+<div class="stats-band">
+  <div class="wrap">
+    <div class="stats-grid">
+      <div class="stat-item reveal"><b data-count="15" data-suffix="+">0</b><span>Years of Excellence</span></div>
+      <div class="stat-item reveal d1"><b data-count="20" data-suffix="+">0</b><span>Nationalities on Campus</span></div>
+      <div class="stat-item reveal d2"><b data-count="12" data-prefix="1:">0</b><span>Teacher-Student Ratio</span></div>
+      <div class="stat-item reveal d3"><b data-count="98" data-suffix="%">0</b><span>University Placement</span></div>
+    </div>
+  </div>
+</div>
+
+<section id="about">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">01</span>
+      <h2>About the school</h2>
+    </div>
+    <div class="about-grid">
+      <div class="reveal">
+        <p>The Lime Head International School was founded on a simple conviction: children who are given a global outlook, taught in small, attentive classrooms, grow into confident, capable adults anywhere in the world.</p>
+        <p>Our English-medium curriculum is benchmarked against international standards, giving students a smooth pathway to universities abroad while staying grounded in strong local values and community.</p>
+        <div class="curriculum-card">
+          <div class="tag">Academic Framework</div>
+          <h3>International Curriculum</h3>
+          <ul>
+            <li>English National Curriculum, Early Years – Grade 8</li>
+            <li>Cambridge-aligned assessments</li>
+            <li>Dual-language instruction available</li>
+            <li>University counselling from Grade 9</li>
+          </ul>
+        </div>
+      </div>
+      <div class="about-media reveal d1">
+        <img src="https://images.unsplash.com/photo-1592066575517-58df903152f2?fm=jpg&q=80&w=1400&auto=format&fit=crop" alt="School campus building">
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="life" style="padding-top:0;">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">02</span>
+      <h2>Life on campus</h2>
+    </div>
+  </div>
+  <div class="life-strip reveal">
+    <div class="life-img">
+      <img src="https://images.unsplash.com/photo-1759143101324-d375443f1955?fm=jpg&q=80&w=1600&auto=format&fit=crop" alt="Students in uniform in the classroom">
+      <div class="life-caption"><span>Classroom</span><p>Small groups, full attention.</p></div>
+    </div>
+    <div class="life-img">
+      <img src="https://images.unsplash.com/photo-1760917094679-d33f2ec13110?fm=jpg&q=80&w=1400&auto=format&fit=crop" alt="Campus grounds">
+      <div class="life-caption"><span>Campus</span><p>Space to think, and to play.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="message">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">03</span>
+      <h2>A word from the head</h2>
+    </div>
+    <div class="head-msg reveal">
+      <div class="head-portrait">ST</div>
+      <div>
+        <blockquote>"We are not just preparing children for exams — we are preparing global citizens who can think critically, adapt confidently, and lead with empathy, wherever life takes them."</blockquote>
+        <div class="signee">Sir Tahir — Head of School</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="programs">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="section-num">04</span>
+      <h2>What we offer</h2>
+    </div>
+    <div class="cards">
+      <div class="card reveal">
+        <div class="tag">Academics</div>
+        <h3>Global Curriculum</h3>
+        <p>An internationally benchmarked program preparing students for universities worldwide.</p>
+      </div>
+      <div class="card reveal d1">
+        <div class="tag">Culture</div>
+        <h3>World Citizenship</h3>
+        <p>Model UN, language exchange, and cultural immersion programs from an early age.</p>
+      </div>
+      <div class="card reveal d2">
+        <div class="tag">Wellbeing</div>
+        <h3>Pastoral Care</h3>
+        <p>Dedicated mentors and small class sizes so every student is truly known and supported.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="footer-media">
+    <img src="https://images.unsplash.com/photo-1626855428608-d1042cc93ef3?fm=jpg&q=80&w=2000&auto=format&fit=crop" alt="">
+  </div>
+  <div class="wrap">
+    <div class="footer-top reveal">
+      <h2>Begin the admissions journey today.</h2>
+      <div class="contact-list">
+        <div>📍 School Campus, Main Road</div>
+        <div>📞 +92 300 0000000</div>
+        <div>✉️ admissions@thelimehead.edu</div>
+        <div>💬 WhatsApp (Admissions): <a href="https://wa.me/923364126149" target="_blank" rel="noopener">+92 336 4126149</a></div>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 The Lime Head International School.</span>
+      <span>Head of School: Sir Tahir</span>
+      <span><a href="https://www.instagram.com/abdullah.sohail98?igsh=d3JxdWE1MWQwdWt5" target="_blank" rel="noopener">Instagram →</a></span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => { nav.classList.toggle('scrolled', window.scrollY > 40); });
+
+  const revealEls = document.querySelectorAll('.reveal:not(.in)');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting){ e.target.classList.add('in'); io.unobserve(e.target); } });
+  }, {threshold:0.15});
+  revealEls.forEach(el => io.observe(el));
+
+  const counters = document.querySelectorAll('[data-count]');
+  const counterIO = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        const el = entry.target;
+        const target = parseInt(el.dataset.count, 10);
+        const prefix = el.dataset.prefix || '';
+        const suffix = el.dataset.suffix || '';
+        const duration = 1400;
+        const start = performance.now();
+        function tick(now){
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = prefix + Math.round(target * eased) + suffix;
+          if(progress < 1) requestAnimationFrame(tick);
+        }
+        requestAnimationFrame(tick);
+        counterIO.unobserve(el);
+      }
+    });
+  }, {threshold:0.4});
+  counters.forEach(c => counterIO.observe(c));
+</script>
+
+</body>
+</html>
